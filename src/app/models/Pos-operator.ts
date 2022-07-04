@@ -1,6 +1,6 @@
-import { Order } from '@models/order';
+import { Order, OrderRequest } from '@models/order';
 
 export interface PosOperator {
-    createOrder(order: Order): number;
-    updateOrder(order: Order): number;
+    createOrder(order: OrderRequest): Order;
+    updateOrder(order: OrderRequest): Order;
 }

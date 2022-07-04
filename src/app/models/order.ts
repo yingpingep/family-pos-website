@@ -1,7 +1,18 @@
 import { MenuItem } from '@models/menu';
 
-export interface Order {
+export enum OrderStatus {
+    CREATED = 'created',
+    CLOSED = 'closed',
+}
+
+type OrderBase = {
     serial: number;
     items: MenuItem[];
-    price: number;
-}
+};
+
+export type Order = OrderBase & {
+    amount: number;
+    status: OrderStatus;
+};
+
+export type OrderRequest = OrderBase;

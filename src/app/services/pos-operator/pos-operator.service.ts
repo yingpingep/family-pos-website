@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PosOperator } from '@models/Pos-operator';
-import { Order } from '@models/order';
+import { Order, OrderRequest, OrderStatus } from '@models/order';
 
 @Injectable({
     providedIn: 'root',
@@ -8,11 +8,17 @@ import { Order } from '@models/order';
 export class PosOperatorService implements PosOperator {
     constructor() {}
 
-    createOrder(order: Order): number {
-        return 0;
+    createOrder(order: OrderRequest): Order {
+        return {
+            ...order,
+            amount: order.items
+                .map((item) => item.price)
+                .reduce((previous, current) => previous + current),
+            status: OrderStatus.CREATED,
+        };
     }
 
-    updateOrder(order: Order): number {
-        return 0;
+    updateOrder(order: OrderRequest): Order {
+        return {} as Order;
     }
 }
