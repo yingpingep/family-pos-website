@@ -21,7 +21,8 @@
         "lib": ["es2020", "dom"],
         "paths": {
             "@models/*": ["src/app/models/*"],
-            "@services/*": ["src/app/services/*"]
+            "@services/*": ["src/app/services/*"],
+            "@utils": ["src/app/utils/index.ts"]
         }
     },
     "angularCompilerOptions": {
