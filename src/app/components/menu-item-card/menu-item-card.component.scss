@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+$my-typography: mat.define-typography-config();
+.card {
+    cursor: pointer;
+    &__title {
+        margin-bottom: 10px;
+    }
+    &__subtitle {
+        margin: 0;
+    }
+}

@@ -37,7 +37,7 @@ const getOrderRequest = (length: number): OrderRequest => {
         },
     ];
     return {
-        serial: 1,
+        id: 1,
         items: menuItems.slice(0, length),
     };
 };
@@ -79,7 +79,7 @@ describe('PosOperatorService', () => {
 
         it('should keep serial unchanged', () => {
             const newOrder = service.updateOrder(order, getOrderRequest(3));
-            expect(newOrder.serial).toBe(order.serial);
+            expect(newOrder.id).toBe(order.id);
         });
 
         it('should update order items', () => {

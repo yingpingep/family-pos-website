@@ -7,7 +7,7 @@ export enum OrderStatus {
 }
 
 type OrderBase = {
-    serial: number;
+    id: number;
     items: MenuItem[];
 };
 

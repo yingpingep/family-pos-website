@@ -1,3 +1,4 @@
 import { Menu } from '@models/menu';
+import { Observable } from 'rxjs';
 
-export type GetMenuResponse = { menu: Menu } | undefined;
+export type GetMenuResponse = Observable<{ menu: Menu }>;

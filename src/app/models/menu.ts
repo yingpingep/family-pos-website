@@ -9,4 +9,11 @@ export interface MenuSection {
     items: MenuItem[];
 }
 
+export interface RawMenuItem {
+    type: string;
+    id: number;
+    name: string;
+    price: number;
+}
+
 export type Menu = MenuSection[];
