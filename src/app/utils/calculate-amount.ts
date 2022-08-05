@@ -1,5 +1,7 @@
-import { MenuItem } from '@models/menu';
+import { OrderSection } from '@models/order';
 
-export function calculateAmount(items: MenuItem[]): number {
-    return items.map((item) => item.price).reduce((p, c) => p + c);
+export function calculateAmount(section: OrderSection): number {
+    return section.items
+        .map((item) => item.price * item.count)
+        .reduce((p, c) => p + c);
 }

@@ -12,7 +12,9 @@ export class PosOperatorService implements PosOperator {
     createOrder(request: OrderRequest): Order {
         return {
             ...request,
-            amount: calculateAmount(request.items),
+            amount: request.sections
+                .map((section) => calculateAmount(section))
+                .reduce((p, c) => p + c),
             status: OrderStatus.CREATED,
         };
     }
@@ -20,8 +22,10 @@ export class PosOperatorService implements PosOperator {
     updateOrder(oldOrder: Order, newRequest: OrderRequest): Order {
         return {
             ...oldOrder,
-            items: [...newRequest.items],
-            amount: calculateAmount(newRequest.items),
+            sections: [...newRequest.sections],
+            amount: newRequest.sections
+                .map((section) => calculateAmount(section))
+                .reduce((p, c) => p + c),
             status: OrderStatus.UPDATED,
         };
     }

@@ -11,9 +11,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { OrderPreviewComponent } from './components/order-preview/order-preview.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-    declarations: [AppComponent, MenuItemCardComponent],
+    declarations: [AppComponent, MenuItemCardComponent, OrderPreviewComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -24,6 +30,11 @@ import { HttpClientModule } from '@angular/common/http';
         MatTabsModule,
         FlexLayoutModule,
         HttpClientModule,
+        MatDividerModule,
+        MatListModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

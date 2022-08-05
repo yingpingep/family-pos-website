@@ -1,10 +1,18 @@
-.container {
+@use '@angular/material' as mat;
+
+.layout {
     height: 100%;
     width: 100%;
+}
 
-    .drawer {
-        width: 30%;
-    }
+.order-container {
+    height: 100%;
+    padding: 24px;
+}
+
+.menu-container {
+    height: 100%;
+    width: 100%;
 
     .tab-group {
         height: 100%;
