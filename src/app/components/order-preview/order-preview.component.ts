@@ -1,12 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    Input,
+    OnDestroy,
+    QueryList,
+    ViewChild,
+    ViewChildren,
+} from '@angular/core';
+import { OrderItem } from '@models/order';
+import { CdkScrollable } from '@angular/cdk/overlay';
+import { MatListItem } from '@angular/material/list';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-order-preview',
     templateUrl: './order-preview.component.html',
     styleUrls: ['./order-preview.component.scss'],
 })
-export class OrderPreviewComponent implements OnInit {
+export class OrderPreviewComponent implements AfterViewInit, OnDestroy {
+    @Input() sections!: Map<string, OrderItem[]>;
+    @Input() sectionTypes!: string[];
+    @ViewChild(CdkScrollable) scrollContainer!: CdkScrollable;
+    @ViewChildren(MatListItem) matListItems!: QueryList<MatListItem>;
+
+    private onDestroy$ = new Subject<void>();
+
     constructor() {}
 
-    ngOnInit(): void {}
+    ngAfterViewInit(): void {
+        this.matListItems.changes
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(() => {
+                this.scrollContainer.scrollTo({
+                    bottom: 0,
+                });
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy$.next();
+        this.onDestroy$.complete();
+    }
 }

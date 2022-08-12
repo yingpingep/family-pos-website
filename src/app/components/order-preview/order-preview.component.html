@@ -1,9 +1,9 @@
 <div fxLayout="column" class="container">
     <h1>已點清單</h1>
-    <mat-list fxFlex="1 1 auto" class="order-list">
-        <ng-container *ngFor="let type of [1, 2, 3, 4]; index as i">
-            <div mat-subheader>Type {{ type }}</div>
-            <mat-list-item *ngFor="let folder of [1, 2, 3]">
+    <mat-list fxFlex="1 1 auto" class="order-list" cdkScrollable>
+        <ng-container *ngFor="let type of sectionTypes; index as i">
+            <div mat-subheader>{{ type }}</div>
+            <mat-list-item *ngFor="let item of sections.get(type)!">
                 <button
                     [mat-menu-trigger-for]="menu"
                     mat-button
@@ -11,21 +11,17 @@
                 >
                     <mat-icon>more_horiz</mat-icon>
                 </button>
-                <div mat-line>品項名稱</div>
+                <div mat-line>{{ item.name }}</div>
                 <div mat-line fxLayout fxLayoutAlign="space-between">
-                    <span>x 1</span>
-                    <span>{{ 6666 | currency: 'TWD':'NT$ ':'1.0-0' }}</span>
+                    <span>x {{ item.count }}</span>
+                    <span>{{
+                        item.price * item.count | currency: 'TWD':'NT$ ':'1.0-0'
+                    }}</span>
                 </div>
             </mat-list-item>
-            <mat-divider *ngIf="i !== 3"></mat-divider>
+            <mat-divider *ngIf="i !== sectionTypes.length - 1"></mat-divider>
         </ng-container>
     </mat-list>
-
-    <mat-divider></mat-divider>
-    <div style="padding: 12px 16px" fxLayout fxLayoutAlign="space-between">
-        <span>總金額</span>
-        <span>{{ 999999 | currency: 'TWD':'NT$ ':'1.0-0' }} </span>
-    </div>
 
     <mat-divider></mat-divider>
     <div class="button-group" fxLayout fxLayoutAlign="space-around">

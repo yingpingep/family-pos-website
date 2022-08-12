@@ -1,6 +1,6 @@
 <div fxLayout class="layout">
     <div class="order-container" fxFlex="1 1 35%">
-        <app-order-preview></app-order-preview>
+        <app-order-preview-container></app-order-preview-container>
     </div>
     <mat-divider vertical="true"></mat-divider>
     <div class="menu-container" fxFlex="1 1 65%">
@@ -14,6 +14,7 @@
                         fxFlex="1 1 33%"
                         *ngFor="let item of section.items"
                         [item]="item"
+                        (click)="onCardClick(item)"
                     ></app-menu-item-card>
                 </div>
             </mat-tab>

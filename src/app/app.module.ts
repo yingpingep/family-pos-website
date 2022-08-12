@@ -17,9 +17,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { OrderPreviewComponent } from './components/order-preview/order-preview.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { OrderPreviewContainer } from './components/order-preview/order-preview-container.component';
 
 @NgModule({
-    declarations: [AppComponent, MenuItemCardComponent, OrderPreviewComponent],
+    declarations: [
+        AppComponent,
+        MenuItemCardComponent,
+        OrderPreviewComponent,
+        OrderPreviewContainer,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
