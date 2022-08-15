@@ -25,7 +25,12 @@
 
     <mat-divider></mat-divider>
     <div class="button-group" fxLayout fxLayoutAlign="space-around">
-        <button mat-stroked-button color="primary" fxFlex="1 1 33%">
+        <button
+            mat-stroked-button
+            color="primary"
+            fxFlex="1 1 33%"
+            (click)="cancelClick.emit()"
+        >
             取消
         </button>
         <button mat-raised-button color="primary" fxFlex="1 1 33%">確認</button>

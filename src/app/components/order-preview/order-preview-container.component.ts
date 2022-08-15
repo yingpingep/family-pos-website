@@ -8,6 +8,7 @@ import { OrderItem } from '@models/order';
     template: `<app-order-preview
         [sections]="(sections$ | async)!"
         [sectionTypes]="(sectionTypes$ | async)!"
+        (cancelClick)="onCancelClick()"
     ></app-order-preview>`,
     styles: [],
 })
@@ -22,5 +23,9 @@ export class OrderPreviewContainer implements OnInit {
         this.sectionTypes$ = this.sections$.pipe(
             map((sections) => [...sections.keys()])
         );
+    }
+
+    onCancelClick(): void {
+        this.previewOperator.reset();
     }
 }

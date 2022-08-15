@@ -1,8 +1,10 @@
 import {
     AfterViewInit,
     Component,
+    EventEmitter,
     Input,
     OnDestroy,
+    Output,
     QueryList,
     ViewChild,
     ViewChildren,
@@ -20,6 +22,8 @@ import { Subject, takeUntil } from 'rxjs';
 export class OrderPreviewComponent implements AfterViewInit, OnDestroy {
     @Input() sections!: Map<string, OrderItem[]>;
     @Input() sectionTypes!: string[];
+    @Output() cancelClick = new EventEmitter<void>();
+
     @ViewChild(CdkScrollable) scrollContainer!: CdkScrollable;
     @ViewChildren(MatListItem) matListItems!: QueryList<MatListItem>;
 
