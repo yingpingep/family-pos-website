@@ -53,7 +53,7 @@ const getOrderRequest = (length: number): OrderRequest => {
         },
     ];
     return {
-        id: 1,
+        id: '1',
         sections,
     };
 };

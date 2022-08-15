@@ -17,9 +17,6 @@ describe('PreviewOperatorService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({});
         service = TestBed.inject(PreviewOperatorService);
-    });
-
-    afterEach(() => {
         service.reset();
     });
 

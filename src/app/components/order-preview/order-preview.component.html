@@ -33,7 +33,15 @@
         >
             取消
         </button>
-        <button mat-raised-button color="primary" fxFlex="1 1 33%">確認</button>
+        <button
+            mat-raised-button
+            color="primary"
+            fxFlex="1 1 33%"
+            [disabled]="isConfirmDisabled"
+            (click)="openConfirmDialog(dialog)"
+        >
+            確認
+        </button>
     </div>
 </div>
 
@@ -41,3 +49,39 @@
     <button mat-menu-item>修改</button>
     <button mat-menu-item>刪除</button>
 </mat-menu>
+
+<ng-template class="confirm-dialog" #dialog>
+    <h1 mat-dialog-title>確認點餐金額及指定號碼牌</h1>
+    <div mat-dialog-content class="confirm-dialog__content">
+        <div class="mat-h3">
+            總金額：<span class="total-amount">{{
+                totalAmount | currency: 'TWD':'NT$ ':'1.0-0'
+            }}</span>
+        </div>
+        <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>請輸入號碼牌</mat-label>
+            <input matInput type="text" [(ngModel)]="waitNumber" />
+            <button
+                *ngIf="waitNumber"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="waitNumber = ''"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button mat-dialog-close="">取消</button>
+        <button
+            mat-raised-button
+            color="primary"
+            mat-dialog-close=""
+            (click)="onSubmitClick()"
+            [disabled]="isSubmitDisabled"
+        >
+            送出
+        </button>
+    </div>
+</ng-template>

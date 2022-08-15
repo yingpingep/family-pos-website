@@ -29,13 +29,18 @@ export class PreviewOperatorService {
 
     addOrderItem(item: OrderItem): void {
         const { type, id, count } = item;
+        const copy = {
+            ...item,
+        };
+
         const section =
             this._sections.get(type) || new Map<number, OrderItem>();
+
         const existedItem = section.get(id);
         if (existedItem) {
             existedItem.count += count;
         } else {
-            section.set(id, item);
+            section.set(id, copy);
         }
 
         this._sections.set(type, section);

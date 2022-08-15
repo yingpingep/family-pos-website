@@ -1,6 +1,5 @@
-import { MenuItem } from '@models/menu';
 import { calculateAmount } from './calculate-amount';
-import { OrderItem, OrderSection } from '@models/order';
+import { OrderSection } from '@models/order';
 
 describe('calculate-amount', () => {
     const section: OrderSection = {
@@ -31,7 +30,7 @@ describe('calculate-amount', () => {
     };
 
     it('should calculate the sum for given items', () => {
-        const amount = calculateAmount(section);
+        const amount = calculateAmount(section.items);
         expect(amount).toBe(65);
     });
 });

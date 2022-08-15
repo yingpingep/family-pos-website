@@ -18,6 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { OrderPreviewComponent } from './components/order-preview/order-preview.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { OrderPreviewContainer } from './components/order-preview/order-preview-container.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -41,6 +45,10 @@ import { OrderPreviewContainer } from './components/order-preview/order-preview-
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

@@ -21,3 +21,14 @@
         padding-top: 12px;
     }
 }
+
+.confirm-dialog {
+    &__content {
+        display: flex;
+        flex-direction: column;
+
+        .total-amount {
+            color: orangered;
+        }
+    }
+}

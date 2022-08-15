@@ -16,7 +16,7 @@ export type OrderSection = {
 };
 
 type OrderBase = {
-    id: number;
+    id: string;
     sections: OrderSection[];
 };
 

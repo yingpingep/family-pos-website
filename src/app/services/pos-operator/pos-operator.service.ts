@@ -13,7 +13,7 @@ export class PosOperatorService implements PosOperator {
         return {
             ...request,
             amount: request.sections
-                .map((section) => calculateAmount(section))
+                .map((section) => calculateAmount(section.items))
                 .reduce((p, c) => p + c),
             status: OrderStatus.CREATED,
         };
@@ -24,7 +24,7 @@ export class PosOperatorService implements PosOperator {
             ...oldOrder,
             sections: [...newRequest.sections],
             amount: newRequest.sections
-                .map((section) => calculateAmount(section))
+                .map((section) => calculateAmount(section.items))
                 .reduce((p, c) => p + c),
             status: OrderStatus.UPDATED,
         };
