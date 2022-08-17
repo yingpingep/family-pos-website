@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateOrderModule } from './components/create-order/create-order.module';
 import { OrderListModule } from './components/order-list/order-list.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { OrderListModule } from './components/order-list/order-list.module';
         CreateOrderModule,
         OrderListModule,
         FlexModule,
+        MatTabsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

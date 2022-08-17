@@ -7,6 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
     title = 'family-pos-website';
+    links = [
+        {
+            name: '已點清單',
+            path: '/',
+        },
+        {
+            name: '新增',
+            path: '/create',
+        },
+    ];
+    activeLink: string = '/';
 
     constructor() {}
 

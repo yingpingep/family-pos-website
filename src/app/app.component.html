@@ -1,3 +1,14 @@
-<div fxLayout class="layout">
+<nav mat-tab-nav-bar [tabPanel]="tabNavPanel">
+    <a
+        mat-tab-link
+        *ngFor="let link of links"
+        [routerLink]="link.path"
+        (click)="activeLink = link.path"
+        [active]="activeLink === link.path"
+        >{{ link.name }}
+    </a>
+</nav>
+
+<mat-tab-nav-panel fxLayout class="layout" #tabNavPanel>
     <router-outlet></router-outlet>
-</div>
+</mat-tab-nav-panel>
