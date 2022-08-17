@@ -1,0 +1,20 @@
+.order-container {
+    height: 100%;
+    padding: 24px;
+}
+
+.menu-container {
+    height: 100%;
+    width: 100%;
+
+    .tab-group {
+        height: 100%;
+    }
+
+    .menu {
+        padding: 24px;
+        flex-wrap: wrap;
+        height: 100%;
+        width: 100%;
+    }
+}
