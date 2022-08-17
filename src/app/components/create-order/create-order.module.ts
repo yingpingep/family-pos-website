@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlexModule } from '@angular/flex-layout';
 
-import { CreateLayoutComponent } from './create-layout/create-layout.component';
+import { CreateOrderLayoutComponent } from './create-layout/create-order-layout.component';
 import { OrderPreviewComponent } from './order-preview/order-preview.component';
 import { OrderPreviewContainer } from './order-preview/order-preview-container.component';
 import { MenuItemCardComponent } from './menu-item-card/menu-item-card.component';
@@ -23,12 +23,12 @@ import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [
-        CreateLayoutComponent,
+        CreateOrderLayoutComponent,
         MenuItemCardComponent,
         OrderPreviewComponent,
         OrderPreviewContainer,
     ],
-    exports: [CreateLayoutComponent],
+    exports: [CreateOrderLayoutComponent, MenuItemCardComponent],
     imports: [
         CommonModule,
         MatDividerModule,

@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateOrderModule } from './components/create-order/create-order.module';
+import { OrderListModule } from './components/order-list/order-list.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { CreateOrderModule } from './components/create-order/create-order.module
         BrowserAnimationsModule,
         HttpClientModule,
         CreateOrderModule,
+        OrderListModule,
         FlexModule,
     ],
     providers: [],

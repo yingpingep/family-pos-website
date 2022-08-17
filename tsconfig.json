@@ -22,7 +22,8 @@
         "paths": {
             "@models/*": ["src/app/models/*"],
             "@services/*": ["src/app/services/*"],
-            "@utils": ["src/app/utils/index.ts"]
+            "@utils": ["src/app/utils/index.ts"],
+            "@pipes/*": ["src/app/pipes/*"]
         }
     },
     "angularCompilerOptions": {

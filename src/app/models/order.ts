@@ -3,6 +3,7 @@ import { MenuItem } from '@models/menu';
 export enum OrderStatus {
     CREATED = 'created',
     UPDATED = 'updated',
+    WAITING = 'waiting',
     CLOSED = 'closed',
 }
 

@@ -5,11 +5,11 @@ import { MenuOperatorService } from '@services/menu-operator/menu-operator.servi
 import { map, Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-create-layout',
-    templateUrl: './create-layout.component.html',
-    styleUrls: ['./create-layout.component.scss'],
+    selector: 'app-create-order-layout',
+    templateUrl: './create-order-layout.component.html',
+    styleUrls: ['./create-order-layout.component.scss'],
 })
-export class CreateLayoutComponent implements OnInit {
+export class CreateOrderLayoutComponent implements OnInit {
     menu$: Observable<Menu> | undefined;
 
     constructor(
