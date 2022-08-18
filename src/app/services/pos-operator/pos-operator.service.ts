@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PosOperator } from '@models/Pos-operator';
+import { PosOperator } from '@models/pos-operator';
 import { Order, OrderRequest, OrderStatus } from '@models/order';
 import { calculateAmount } from '@utils';
 
