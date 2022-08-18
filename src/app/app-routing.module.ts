@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
-import { OrderListLayoutComponent } from './components/order-list/order-list-layout/order-list-layout.component';
+import { OrderDashboardComponent } from './components/order-dashboard/order-dashboard.component';
 
 const routes: Routes = [
     {
@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        component: OrderListLayoutComponent,
+        component: OrderDashboardComponent,
     },
 ];
 

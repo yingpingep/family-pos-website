@@ -7,10 +7,10 @@ import { OrderStatusPipe } from '@pipes/order-status.pipe';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
-import { OrderListLayoutComponent } from './order-list-layout/order-list-layout.component';
+import { OrderDashboardComponent } from './order-dashboard.component';
 
 @NgModule({
-    declarations: [OrderCardComponent, OrderListLayoutComponent],
+    declarations: [OrderCardComponent, OrderDashboardComponent],
     imports: [
         CommonModule,
         MatCardModule,

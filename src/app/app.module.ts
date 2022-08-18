@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { OrderListModule } from './components/order-list/order-list.module';
+import { OrderDashboardModule } from './components/order-dashboard/order-dashboard.module';
 import { OrderDetailModule } from './components/order-detail/order-detail.module';
 
 import { MatTabsModule } from '@angular/material/tabs';
@@ -19,7 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         BrowserAnimationsModule,
         HttpClientModule,
         OrderDetailModule,
-        OrderListModule,
+        OrderDashboardModule,
         FlexModule,
         MatTabsModule,
     ],

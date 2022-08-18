@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Order, OrderStatus } from '@models/order';
 
 @Component({
-    selector: 'app-order-list-layout',
-    templateUrl: './order-list-layout.component.html',
-    styleUrls: ['./order-list-layout.component.scss'],
+    selector: 'app-order-dashboard',
+    templateUrl: './order-dashboard.component.html',
+    styleUrls: ['./order-dashboard.component.scss'],
 })
-export class OrderListLayoutComponent implements OnInit {
+export class OrderDashboardComponent implements OnInit {
     orderList: Order[] = [];
 
     constructor() {}
