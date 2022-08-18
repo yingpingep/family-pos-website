@@ -5,16 +5,16 @@ import { OrderItem } from '@models/order';
 import { createOrderRequest } from '@utils';
 
 @Component({
-    selector: 'app-order-preview-container',
-    template: `<app-order-preview
+    selector: 'app-order-item-list-container',
+    template: `<app-order-item-list
         [sections]="(sections$ | async)!"
         [sectionTypes]="(sectionTypes$ | async)!"
         (cancelClick)="onCancelClick()"
         (submitClick)="onSubmitClick($event.id, $event.order)"
-    ></app-order-preview>`,
+    ></app-order-item-list>`,
     styles: [],
 })
-export class OrderPreviewContainer implements OnInit {
+export class OrderItemListContainer implements OnInit {
     sections$!: Observable<Map<string, OrderItem[]>>;
     sectionTypes$!: Observable<string[]>;
 

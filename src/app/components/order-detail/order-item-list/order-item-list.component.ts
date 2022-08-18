@@ -18,11 +18,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { calculateAmount } from '@utils';
 
 @Component({
-    selector: 'app-order-preview',
-    templateUrl: './order-preview.component.html',
-    styleUrls: ['./order-preview.component.scss'],
+    selector: 'app-order-item-list',
+    templateUrl: './order-item-list.component.html',
+    styleUrls: ['./order-item-list.component.scss'],
 })
-export class OrderPreviewComponent implements AfterViewInit, OnDestroy {
+export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     @Input() sections!: Map<string, OrderItem[]>;
     @Input() sectionTypes!: string[];
     @Output() cancelClick = new EventEmitter<void>();

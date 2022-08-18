@@ -19,4 +19,4 @@ import { OrderListLayoutComponent } from './order-list-layout/order-list-layout.
         OrderStatusPipe,
     ],
 })
-export class OrderListModule {}
+export class OrderDashboardModule {}
