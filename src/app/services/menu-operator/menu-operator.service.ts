@@ -9,14 +9,18 @@ import { Menu, MenuItem, MenuSection } from '@models/menu';
     providedIn: 'root',
 })
 export class MenuOperatorService implements MenuOperator {
-    constructor(private httpClient: HttpClient) {}
+    private menuMap!: Map<number, MenuItem>;
+
+    constructor(private httpClient: HttpClient) {
+        this.menuMap = new Map<number, MenuItem>();
+    }
 
     getMenu(): GetMenuResponse {
         return this.httpClient.get<MenuItem[]>('/assets/menu.json').pipe(
             map((rawItems) => {
                 const sectionMap = new Map<string, MenuSection>();
 
-                rawItems.forEach((item) => {
+                const addToSectionMap = (item: MenuItem) => {
                     const { type } = item;
                     const section = sectionMap.get(type);
                     const items = section ? section.items : [];
@@ -26,11 +30,28 @@ export class MenuOperatorService implements MenuOperator {
                         type,
                         items,
                     });
+                };
+
+                rawItems.forEach((item) => {
+                    addToSectionMap(item);
+                    this.addToInternalMenuMap(item);
                 });
 
                 const menu: Menu = [...sectionMap.values()];
                 return { menu };
             })
         );
+    }
+
+    getMenuItem(id: number): MenuItem {
+        if (!this.menuMap.has(id)) {
+            throw Error(`Item ${id} doesn't exist`);
+        }
+
+        return this.menuMap.get(id)!;
+    }
+
+    private addToInternalMenuMap(item: MenuItem): void {
+        this.menuMap.set(item.id, item);
     }
 }

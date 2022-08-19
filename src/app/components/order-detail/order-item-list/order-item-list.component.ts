@@ -10,12 +10,13 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import { OrderItem } from '@models/order';
+import { OrderItem, OrderInfo } from '@models/order';
 import { CdkScrollable } from '@angular/cdk/overlay';
-import { MatListItem } from '@angular/material/list';
 import { Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { calculateAmount } from '@utils';
+import { MenuOperatorService } from '@services/menu-operator/menu-operator.service';
+import { MenuItem } from '@models/menu';
+import { OrderItemComponent } from '../order-item/order-item.component';
 
 @Component({
     selector: 'app-order-item-list',
@@ -23,8 +24,9 @@ import { calculateAmount } from '@utils';
     styleUrls: ['./order-item-list.component.scss'],
 })
 export class OrderItemListComponent implements AfterViewInit, OnDestroy {
-    @Input() sections!: Map<string, OrderItem[]>;
+    @Input() sections!: OrderInfo;
     @Input() sectionTypes!: string[];
+
     @Output() cancelClick = new EventEmitter<void>();
     @Output() submitClick = new EventEmitter<{
         id: string;
@@ -32,7 +34,8 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     }>();
 
     @ViewChild(CdkScrollable) scrollContainer!: CdkScrollable;
-    @ViewChildren(MatListItem) matListItems!: QueryList<MatListItem>;
+    @ViewChildren(OrderItemComponent)
+    matListItems!: QueryList<OrderItemComponent>;
 
     private onDestroy$ = new Subject<void>();
 
@@ -40,14 +43,17 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     totalAmount: number = 0;
 
     get isConfirmDisabled(): boolean {
-        return !this.sections || this.sections.size === 0;
+        return this.sectionTypes.length === 0;
     }
 
     get isSubmitDisabled(): boolean {
         return this.waitNumber === '';
     }
 
-    constructor(private dialogService: MatDialog) {}
+    constructor(
+        private dialogService: MatDialog,
+        private menuOperator: MenuOperatorService
+    ) {}
 
     ngAfterViewInit(): void {
         this.matListItems.changes
@@ -64,10 +70,12 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
         this.onDestroy$.complete();
     }
 
+    getItemInfo(id: number): MenuItem {
+        return this.menuOperator.getMenuItem(id);
+    }
+
     openConfirmDialog(dialogTemplate: TemplateRef<any>): void {
-        this.totalAmount = [...this.sections.values()]
-            .map((items) => calculateAmount(items))
-            .reduce((p, c) => p + c);
+        // TODO: Calculate total amount.
 
         const dialogRef = this.dialogService.open(dialogTemplate);
         dialogRef
@@ -78,10 +86,5 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    onSubmitClick(): void {
-        this.submitClick.emit({
-            id: this.waitNumber,
-            order: this.sections,
-        });
-    }
+    onSubmitClick(): void {}
 }

@@ -26,4 +26,7 @@ export type Order = OrderBase & {
     status: OrderStatus;
 };
 
-export type OrderRequest = OrderBase;
+type OrderItemInfo = { id: number; count: number };
+export type OrderInfo = {
+    [key: string]: OrderItemInfo[];
+};

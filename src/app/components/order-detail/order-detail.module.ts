@@ -6,7 +6,7 @@ import { FlexModule } from '@angular/flex-layout';
 import { OrderDetailComponent } from './order-detail.component';
 import { MenuItemCardComponent } from './menu-item-card/menu-item-card.component';
 import { OrderItemListComponent } from './order-item-list/order-item-list.component';
-import { OrderItemListContainer } from './order-item-list/order-item-list-container';
+import { OrderItemComponent } from './order-item/order-item.component';
 
 // Material
 import { MatDividerModule } from '@angular/material/divider';
@@ -26,7 +26,7 @@ import { MatRippleModule } from '@angular/material/core';
         OrderDetailComponent,
         MenuItemCardComponent,
         OrderItemListComponent,
-        OrderItemListContainer,
+        OrderItemComponent,
     ],
     exports: [OrderDetailComponent, MenuItemCardComponent],
     imports: [

@@ -7,14 +7,6 @@
     height: 100%;
     .order-list {
         overflow: scroll;
-
-        &__item {
-            &__edit {
-                position: absolute;
-                top: 0;
-                right: 16px;
-            }
-        }
     }
 
     .button-group {
