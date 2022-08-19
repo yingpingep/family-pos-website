@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { MenuItem } from '@models/menu';
+import { OrderInfo } from '@models/order';
 
 type OrderItemId = number;
 type Count = number;
@@ -22,13 +23,16 @@ export class OrderMenuStore extends ComponentStore<OrderMenuState> {
 
     readonly selectAllSections = () =>
         this.select((state) => {
-            const sections: { [key: string]: { id: number; count: number }[] } =
-                {};
+            const sections: OrderInfo = {};
             Object.entries(state.sections).forEach(([key, value]) => {
-                sections[key] = [...value.entries()].map(([id, count]) => ({
-                    id,
-                    count,
-                }));
+                const items = [];
+                for (const [id, count] of value.entries()) {
+                    items.push({
+                        id,
+                        count,
+                    });
+                }
+                sections[key] = items;
             });
 
             return sections;

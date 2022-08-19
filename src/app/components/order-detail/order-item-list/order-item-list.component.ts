@@ -10,13 +10,14 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import { OrderItem, OrderInfo } from '@models/order';
+import { OrderInfo } from '@models/order';
 import { CdkScrollable } from '@angular/cdk/overlay';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuOperatorService } from '@services/menu-operator/menu-operator.service';
 import { MenuItem } from '@models/menu';
 import { OrderItemComponent } from '../order-item/order-item.component';
+import { PosOperatorService } from '@services/pos-operator/pos-operator.service';
 
 @Component({
     selector: 'app-order-item-list',
@@ -29,8 +30,8 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
 
     @Output() cancelClick = new EventEmitter<void>();
     @Output() submitClick = new EventEmitter<{
-        id: string;
-        order: Map<string, OrderItem[]>;
+        id: number;
+        orderInfo: OrderInfo;
     }>();
 
     @ViewChild(CdkScrollable) scrollContainer!: CdkScrollable;
@@ -39,20 +40,21 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
 
     private onDestroy$ = new Subject<void>();
 
-    waitNumber: string = '';
-    totalAmount: number = 0;
+    waitNumber: number | null = null;
+    totalAmount$!: Observable<number>;
 
     get isConfirmDisabled(): boolean {
         return this.sectionTypes.length === 0;
     }
 
     get isSubmitDisabled(): boolean {
-        return this.waitNumber === '';
+        return this.waitNumber === null;
     }
 
     constructor(
         private dialogService: MatDialog,
-        private menuOperator: MenuOperatorService
+        private menuOperator: MenuOperatorService,
+        private posOperator: PosOperatorService
     ) {}
 
     ngAfterViewInit(): void {
@@ -75,16 +77,24 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     }
 
     openConfirmDialog(dialogTemplate: TemplateRef<any>): void {
-        // TODO: Calculate total amount.
-
+        this.totalAmount$ = this.posOperator.calculateAmount(this.sections);
         const dialogRef = this.dialogService.open(dialogTemplate);
         dialogRef
             .afterClosed()
             .pipe(take(1))
             .subscribe(() => {
-                this.waitNumber = '';
+                this.waitNumber = null;
             });
     }
 
-    onSubmitClick(): void {}
+    onSubmitClick(): void {
+        if (!this.waitNumber) {
+            return;
+        }
+
+        this.submitClick.emit({
+            id: this.waitNumber,
+            orderInfo: this.sections,
+        });
+    }
 }

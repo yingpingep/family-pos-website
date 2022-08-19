@@ -1,5 +1,3 @@
-import { MenuItem } from '@models/menu';
-
 export enum OrderStatus {
     CREATED = 'created',
     UPDATED = 'updated',
@@ -7,23 +5,11 @@ export enum OrderStatus {
     CLOSED = 'closed',
 }
 
-export type OrderItem = MenuItem & {
-    count: number;
-};
-
-export type OrderSection = {
-    type: string;
-    items: OrderItem[];
-};
-
-type OrderBase = {
-    id: string;
-    sections: OrderSection[];
-};
-
-export type Order = OrderBase & {
+export type Order = {
+    id: number;
     amount: number;
     status: OrderStatus;
+    info: OrderInfo;
 };
 
 type OrderItemInfo = { id: number; count: number };

@@ -99,5 +99,8 @@
                 }
             }
         }
+    },
+    "cli": {
+        "schematicCollections": ["@ngrx/schematics"]
     }
 }

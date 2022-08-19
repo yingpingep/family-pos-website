@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 import { OrderMenuStore } from '@store/order-menu-store.service';
 import { OrderInfo } from '@models/order';
+import { PosOperatorService } from '@services/pos-operator/pos-operator.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-order-detail',
@@ -18,8 +20,10 @@ export class OrderDetailComponent implements OnInit {
     sections$!: Observable<OrderInfo>;
 
     constructor(
+        private orderMenuStore: OrderMenuStore,
         private menuOperator: MenuOperatorService,
-        private orderMenuStore: OrderMenuStore
+        private posOperator: PosOperatorService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -34,5 +38,11 @@ export class OrderDetailComponent implements OnInit {
 
     onCardClick(item: MenuItem): void {
         this.orderMenuStore.addItem(item);
+    }
+
+    onSubmitClick(id: number, info: OrderInfo): void {
+        this.posOperator.create(id, info).subscribe(() => {
+            this.router.navigate(['/', 'dashboard']).then();
+        });
     }
 }

@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { Order, OrderInfo, OrderStatus } from '@models/order';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { MenuOperatorService } from '@services/menu-operator/menu-operator.service';
+import { Store } from '@ngrx/store';
+import { addOrder } from '@store/order-store/order.actions';
+import { selectOrderEntities } from '@store/order-store/order.selector';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class PosOperatorService {
+    constructor(
+        private menuOperator: MenuOperatorService,
+        private store: Store
+    ) {}
+
+    create(id: number, info: OrderInfo): Observable<Order> {
+        return this.calculateAmount(info).pipe(
+            tap((amount) => {
+                const order = {
+                    id,
+                    info,
+                    amount,
+                    status: OrderStatus.CREATED,
+                };
+                this.store.dispatch(addOrder({ order }));
+            }),
+            switchMap(() => {
+                return this.store
+                    .select(selectOrderEntities)
+                    .pipe(map((entities) => entities[id]!));
+            })
+        );
+    }
+
+    calculateAmount(orderInfo: OrderInfo): Observable<number> {
+        const totalAmount = Object.values(orderInfo)
+            .flatMap((value) => value)
+            .reduce((previousAmount, itemInfo) => {
+                const { id, count } = itemInfo;
+                const { price } = this.menuOperator.getMenuItem(id);
+                const amount = price * count;
+                return previousAmount + amount;
+            }, 0);
+
+        return of(totalAmount);
+    }
+}

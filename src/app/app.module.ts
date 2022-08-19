@@ -3,13 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FlexModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OrderDashboardModule } from './components/order-dashboard/order-dashboard.module';
 import { OrderDetailModule } from './components/order-detail/order-detail.module';
+import * as fromOrder from '@store/order-store/order.reducer';
 
-import { MatTabsModule } from '@angular/material/tabs';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,6 +24,8 @@ import { MatTabsModule } from '@angular/material/tabs';
         OrderDashboardModule,
         FlexModule,
         MatTabsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(fromOrder.ordersFeatureKey, fromOrder.reducer),
     ],
     providers: [],
     bootstrap: [AppComponent],

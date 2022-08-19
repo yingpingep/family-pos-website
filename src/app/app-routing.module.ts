@@ -5,12 +5,16 @@ import { OrderDashboardComponent } from './components/order-dashboard/order-dash
 
 const routes: Routes = [
     {
-        path: 'create',
+        path: 'detail',
         component: OrderDetailComponent,
     },
     {
-        path: '',
+        path: 'dashboard',
         component: OrderDashboardComponent,
+    },
+    {
+        path: '**',
+        redirectTo: 'dashboard',
     },
 ];
 

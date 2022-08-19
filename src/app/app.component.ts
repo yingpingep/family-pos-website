@@ -9,12 +9,12 @@ export class AppComponent implements OnInit {
     title = 'family-pos-website';
     links = [
         {
-            name: '已點清單',
-            path: '/',
+            name: '清單',
+            path: '/dashboard',
         },
         {
-            name: '新增',
-            path: '/create',
+            name: '新增/修改',
+            path: '/detail',
         },
     ];
     activeLink: string = '/';

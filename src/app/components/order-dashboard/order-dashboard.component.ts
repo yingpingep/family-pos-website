@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Order, OrderStatus } from '@models/order';
+import { Order } from '@models/order';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectOrderList } from '@store/order-store/order.selector';
 
 @Component({
     selector: 'app-order-dashboard',
@@ -7,50 +10,11 @@ import { Order, OrderStatus } from '@models/order';
     styleUrls: ['./order-dashboard.component.scss'],
 })
 export class OrderDashboardComponent implements OnInit {
-    orderList: Order[] = [];
+    orderList$!: Observable<Order[]>;
 
-    constructor() {}
+    constructor(private store: Store) {}
 
     ngOnInit(): void {
-        const order: Order = {
-            amount: 0,
-            id: '1',
-            sections: [
-                {
-                    type: '鮮食類',
-                    items: [
-                        {
-                            type: '鮮食類',
-                            id: 1,
-                            name: '招牌鴨血',
-                            count: 1,
-                            price: 20,
-                        },
-                        {
-                            type: '鮮食類',
-                            id: 2,
-                            name: '麻辣豆腐',
-                            count: 1,
-                            price: 20,
-                        },
-                        {
-                            type: '鮮食類',
-                            id: 3,
-                            name: '韓式年糕',
-                            count: 1,
-                            price: 25,
-                        },
-                    ],
-                },
-            ],
-            status: OrderStatus.CREATED,
-        };
-
-        for (let i = 0; i < 10; i++) {
-            this.orderList.push({
-                ...order,
-                id: (i + 1).toString(),
-            });
-        }
+        this.orderList$ = this.store.select(selectOrderList);
     }
 }

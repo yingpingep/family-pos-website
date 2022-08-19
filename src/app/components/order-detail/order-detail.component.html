@@ -2,6 +2,7 @@
     <app-order-item-list
         [sectionTypes]="(existSectionTypes$ | async)!"
         [sections]="(sections$ | async)!"
+        (submitClick)="onSubmitClick($event.id, $event.orderInfo)"
     ></app-order-item-list>
 </div>
 <mat-divider vertical="true"></mat-divider>

@@ -2,7 +2,7 @@
     <div class="container" fxLayout fxLayoutGap="10px grid" fxFlex="1 1 100%">
         <app-order-card
             fxFlex="1 1 33%"
-            *ngFor="let order of orderList"
+            *ngFor="let order of orderList$ | async"
             [order]="order"
         >
         </app-order-card>
