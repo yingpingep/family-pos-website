@@ -44,19 +44,35 @@
         </div>
         <mat-form-field class="example-form-field" appearance="fill">
             <mat-label>請輸入號碼牌</mat-label>
-            <input matInput type="number" [(ngModel)]="waitNumber" />
+            <input
+                matInput
+                type="number"
+                [(ngModel)]="waitNumber"
+                [disabled]="isUpdating"
+            />
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button mat-dialog-close="">取消</button>
         <button
+            *ngIf="!isUpdating"
             mat-raised-button
             color="primary"
             mat-dialog-close=""
-            (click)="onSubmitClick()"
+            (click)="create()"
             [disabled]="isSubmitDisabled"
         >
-            送出
+            新增
+        </button>
+
+        <button
+            *ngIf="isUpdating"
+            mat-raised-button
+            color="primary"
+            mat-dialog-close=""
+            (click)="update()"
+        >
+            更新
         </button>
     </div>
 </ng-template>

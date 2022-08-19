@@ -4,6 +4,7 @@
             fxFlex="1 1 33%"
             *ngFor="let order of orderList$ | async"
             [order]="order"
+            (click)="onCardClick(order.id)"
         >
         </app-order-card>
     </div>

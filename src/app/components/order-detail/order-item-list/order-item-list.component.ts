@@ -27,21 +27,24 @@ import { PosOperatorService } from '@services/pos-operator/pos-operator.service'
 export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     @Input() sections!: OrderInfo;
     @Input() sectionTypes!: string[];
+    @Input() waitNumber: number | null = null;
+    @Input() isUpdating = false;
 
     @Output() cancelClick = new EventEmitter<void>();
     @Output() submitClick = new EventEmitter<{
         id: number;
         orderInfo: OrderInfo;
     }>();
-
-    @ViewChild(CdkScrollable) scrollContainer!: CdkScrollable;
-    @ViewChildren(OrderItemComponent)
-    matListItems!: QueryList<OrderItemComponent>;
-
-    private onDestroy$ = new Subject<void>();
-
-    waitNumber: number | null = null;
+    @Output() updateClick = new EventEmitter<{
+        id: number;
+        orderInfo: OrderInfo;
+    }>();
     totalAmount$!: Observable<number>;
+
+    @ViewChild(CdkScrollable) private scrollContainer!: CdkScrollable;
+    @ViewChildren(OrderItemComponent)
+    private matListItems!: QueryList<OrderItemComponent>;
+    private onDestroy$ = new Subject<void>();
 
     get isConfirmDisabled(): boolean {
         return this.sectionTypes.length === 0;
@@ -87,13 +90,20 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    onSubmitClick(): void {
+    create(): void {
         if (!this.waitNumber) {
             return;
         }
 
         this.submitClick.emit({
             id: this.waitNumber,
+            orderInfo: this.sections,
+        });
+    }
+
+    update(): void {
+        this.updateClick.emit({
+            id: this.waitNumber!,
             orderInfo: this.sections,
         });
     }

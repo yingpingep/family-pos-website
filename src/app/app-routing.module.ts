@@ -2,19 +2,31 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { OrderDashboardComponent } from './components/order-dashboard/order-dashboard.component';
+import { UpdateOrderGuard } from './guards/update-order.guard';
 
 const routes: Routes = [
-    {
-        path: 'detail',
-        component: OrderDetailComponent,
-    },
     {
         path: 'dashboard',
         component: OrderDashboardComponent,
     },
     {
-        path: '**',
-        redirectTo: 'dashboard',
+        path: 'create',
+        component: OrderDetailComponent,
+    },
+    {
+        path: 'order',
+        children: [
+            {
+                canActivate: [UpdateOrderGuard],
+                path: ':id/detail',
+                component: OrderDetailComponent,
+            },
+        ],
+    },
+    {
+        path: '',
+        redirectTo: '/dashboard',
+        pathMatch: 'full',
     },
 ];
 

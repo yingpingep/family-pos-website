@@ -13,8 +13,8 @@ export class AppComponent implements OnInit {
             path: '/dashboard',
         },
         {
-            name: '新增/修改',
-            path: '/detail',
+            name: '新增',
+            path: '/create',
         },
     ];
     activeLink: string = '/';
