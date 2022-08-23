@@ -90,7 +90,11 @@ export class OrderDetailComponent implements OnInit {
         this.backToDashboard();
     }
 
-    private backToDashboard() {
+    private backToDashboard(): void {
         this.router.navigate(['/', 'dashboard']).then();
+    }
+
+    onDeleteItem(item: MenuItem): void {
+        this.orderMenuStore.deleteItem(item);
     }
 }

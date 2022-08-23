@@ -7,6 +7,7 @@
                 *ngFor="let section of sections[type]!"
                 [item]="getItemInfo(section.id)"
                 [count]="section.count"
+                (deleteClick)="deleteItem.emit($event)"
             ></app-order-item>
             <mat-divider *ngIf="i !== sectionTypes.length - 1"></mat-divider>
         </ng-container>

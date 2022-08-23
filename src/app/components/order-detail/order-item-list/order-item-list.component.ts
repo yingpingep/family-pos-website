@@ -39,6 +39,8 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
         id: number;
         orderInfo: OrderInfo;
     }>();
+    @Output() deleteItem = new EventEmitter<MenuItem>();
+
     totalAmount$!: Observable<number>;
 
     @ViewChild(CdkScrollable) private scrollContainer!: CdkScrollable;
