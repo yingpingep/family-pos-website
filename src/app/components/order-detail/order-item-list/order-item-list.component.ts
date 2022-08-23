@@ -40,6 +40,10 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
         orderInfo: OrderInfo;
     }>();
     @Output() deleteItem = new EventEmitter<MenuItem>();
+    @Output() modifyItem = new EventEmitter<{
+        item: MenuItem;
+        count: number;
+    }>();
 
     totalAmount$!: Observable<number>;
 

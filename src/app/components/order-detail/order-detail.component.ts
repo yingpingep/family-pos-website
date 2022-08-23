@@ -97,4 +97,8 @@ export class OrderDetailComponent implements OnInit {
     onDeleteItem(item: MenuItem): void {
         this.orderMenuStore.deleteItem(item);
     }
+
+    onModifyItem(updateInfo: { item: MenuItem; count: number }): void {
+        this.orderMenuStore.updateItemCount(updateInfo);
+    }
 }

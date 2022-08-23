@@ -9,7 +9,35 @@
     </div>
 
     <mat-menu #menu>
-        <button mat-menu-item>修改</button>
+        <button mat-menu-item (click)="openModifyDialog(dialog)">修改</button>
         <button mat-menu-item (click)="delete(item)">刪除</button>
     </mat-menu>
 </mat-list-item>
+
+<ng-template #dialog>
+    <h1 mat-dialog-title>修改餐點數量</h1>
+    <div mat-dialog-content class="confirm-dialog__content">
+        <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>請輸入數量</mat-label>
+            <input
+                #input
+                matInput
+                type="number"
+                min="1"
+                [(ngModel)]="newCount"
+            />
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button mat-dialog-close="">取消</button>
+        <button
+            mat-raised-button
+            color="primary"
+            mat-dialog-close=""
+            [disabled]="input.validity.rangeUnderflow"
+            (click)="update()"
+        >
+            更新
+        </button>
+    </div>
+</ng-template>
