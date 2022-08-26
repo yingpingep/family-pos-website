@@ -2,10 +2,10 @@
     <app-order-item-list
         [sectionTypes]="(existSectionTypes$ | async)!"
         [sections]="(sections$ | async)!"
-        [waitNumber]="orderId$ | async"
+        [order]="order$ | async"
         [isUpdating]="(isUpdating$ | async)!"
         (cancelClick)="onCancelClick()"
-        (submitClick)="onSubmitClick($event.id, $event.orderInfo)"
+        (submitClick)="onSubmitClick($event.waitingNumber, $event.orderInfo)"
         (updateClick)="onUpdateClick($event.id, $event.orderInfo)"
         (deleteItem)="onDeleteItem($event)"
         (modifyItem)="onModifyItem($event)"

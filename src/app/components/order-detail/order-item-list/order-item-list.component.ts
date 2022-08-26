@@ -4,13 +4,14 @@ import {
     EventEmitter,
     Input,
     OnDestroy,
+    OnInit,
     Output,
     QueryList,
     TemplateRef,
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import { OrderInfo } from '@models/order';
+import { Order, OrderInfo } from '@models/order';
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,15 +25,17 @@ import { PosOperatorService } from '@services/pos-operator/pos-operator.service'
     templateUrl: './order-item-list.component.html',
     styleUrls: ['./order-item-list.component.scss'],
 })
-export class OrderItemListComponent implements AfterViewInit, OnDestroy {
+export class OrderItemListComponent
+    implements OnInit, AfterViewInit, OnDestroy
+{
     @Input() sections!: OrderInfo;
     @Input() sectionTypes!: string[];
-    @Input() waitNumber: number | null = null;
+    @Input() order: Order | null = null;
     @Input() isUpdating = false;
 
     @Output() cancelClick = new EventEmitter<void>();
     @Output() submitClick = new EventEmitter<{
-        id: number;
+        waitingNumber: number;
         orderInfo: OrderInfo;
     }>();
     @Output() updateClick = new EventEmitter<{
@@ -45,6 +48,7 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
         count: number;
     }>();
 
+    waitingNumber: number | null = null;
     totalAmount$!: Observable<number>;
 
     @ViewChild(CdkScrollable) private scrollContainer!: CdkScrollable;
@@ -57,7 +61,7 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
     }
 
     get isSubmitDisabled(): boolean {
-        return this.waitNumber === null;
+        return this.waitingNumber === null;
     }
 
     constructor(
@@ -65,6 +69,12 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
         private menuOperator: MenuOperatorService,
         private posOperator: PosOperatorService
     ) {}
+
+    ngOnInit(): void {
+        if (this.order) {
+            this.waitingNumber = this.order.waitingNumber;
+        }
+    }
 
     ngAfterViewInit(): void {
         this.matListItems.changes
@@ -92,24 +102,28 @@ export class OrderItemListComponent implements AfterViewInit, OnDestroy {
             .afterClosed()
             .pipe(take(1))
             .subscribe(() => {
-                this.waitNumber = null;
+                this.waitingNumber = null;
             });
     }
 
     create(): void {
-        if (!this.waitNumber) {
+        if (!this.waitingNumber) {
             return;
         }
 
         this.submitClick.emit({
-            id: this.waitNumber,
+            waitingNumber: this.waitingNumber,
             orderInfo: this.sections,
         });
     }
 
     update(): void {
+        if (!this.order) {
+            return;
+        }
+
         this.updateClick.emit({
-            id: this.waitNumber!,
+            id: this.order.id,
             orderInfo: this.sections,
         });
     }

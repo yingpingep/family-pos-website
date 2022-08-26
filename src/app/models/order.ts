@@ -10,6 +10,8 @@ export type Order = {
     amount: number;
     status: OrderStatus;
     info: OrderInfo;
+    waitingNumber: number;
+    createAt: number;
 };
 
 type OrderItemInfo = { id: number; count: number };

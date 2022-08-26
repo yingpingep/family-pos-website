@@ -4,7 +4,7 @@ import { MenuOperatorService } from '@services/menu-operator/menu-operator.servi
 import { filter, map, Observable, switchMap, take, tap } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 import { OrderMenuStore } from '@store/order-menu-store.service';
-import { OrderInfo } from '@models/order';
+import { Order, OrderInfo } from '@models/order';
 import { PosOperatorService } from '@services/pos-operator/pos-operator.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,8 +18,10 @@ export class OrderDetailComponent implements OnInit {
     menu$!: Observable<Menu>;
     existSectionTypes$!: Observable<string[]>;
     sections$!: Observable<OrderInfo>;
-    orderId$!: Observable<number | null>;
     isUpdating$!: Observable<boolean>;
+    order$!: Observable<Order | null>;
+
+    private orderId$!: Observable<number | null>;
 
     constructor(
         private orderMenuStore: OrderMenuStore,
@@ -47,25 +49,23 @@ export class OrderDetailComponent implements OnInit {
             map((id) => typeof id === 'number')
         );
 
-        this.orderId$
-            .pipe(
-                take(1),
-                filter((id) => typeof id === 'number'),
-                switchMap((id) => this.posOperator.getOrderById(id!)),
-                tap((state) => {
-                    const sections: { [key: string]: Map<number, number> } = {};
-                    Object.entries(state.info).forEach(([key, value]) => {
-                        sections[key] = new Map(
-                            value.map((item) => [item.id, item.count])
-                        );
-                    });
+        this.order$ = this.orderId$.pipe(
+            take(1),
+            filter((id) => typeof id === 'number'),
+            switchMap((id) => this.posOperator.getOrderById(id!)),
+            tap((state) => {
+                const sections: { [key: string]: Map<number, number> } = {};
+                Object.entries(state.info).forEach(([key, value]) => {
+                    sections[key] = new Map(
+                        value.map((item) => [item.id, item.count])
+                    );
+                });
 
-                    this.orderMenuStore.setState({
-                        sections,
-                    });
-                })
-            )
-            .subscribe();
+                this.orderMenuStore.setState({
+                    sections,
+                });
+            })
+        );
     }
 
     onCardClick(item: MenuItem): void {

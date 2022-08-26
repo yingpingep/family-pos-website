@@ -20,18 +20,21 @@ export class PosOperatorService {
         this.entities$ = this.store.select(selectOrderEntities);
     }
 
-    create(id: number, info: OrderInfo): Observable<Order> {
+    create(waitingNumber: number, info: OrderInfo): Observable<Order> {
         return this.calculateAmount(info).pipe(
             tap((amount) => {
+                const timestamp = Date.now();
                 const order = {
-                    id,
+                    id: timestamp,
+                    waitingNumber,
                     info,
                     amount,
                     status: OrderStatus.CREATED,
+                    createAt: timestamp,
                 };
                 this.store.dispatch(addOrder({ order }));
             }),
-            switchMap(() => this.getOrderById(id))
+            switchMap(() => this.getOrderById(waitingNumber))
         );
     }
 
