@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order, OrderInfo, OrderStatus } from '@models/order';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { MenuOperatorService } from '@services/menu-operator/menu-operator.service';
 import { Store } from '@ngrx/store';
 import { addOrder, updateOrder } from '@store/order-store/order.actions';
@@ -60,8 +60,29 @@ export class PosOperatorService {
         );
     }
 
+    close(id: number): Observable<Order> {
+        return this.getOrderById(id).pipe(
+            tap((state) => {
+                this.store.dispatch(
+                    updateOrder({
+                        order: {
+                            id,
+                            changes: {
+                                ...state,
+                                status: OrderStatus.CLOSED,
+                            },
+                        },
+                    })
+                );
+            })
+        );
+    }
+
     getOrderById(id: number): Observable<Order> {
-        return this.entities$.pipe(map((entities) => entities[id]!));
+        return this.entities$.pipe(
+            map((entities) => entities[id]!),
+            take(1)
+        );
     }
 
     calculateAmount(orderInfo: OrderInfo): Observable<number> {

@@ -1,4 +1,12 @@
-<mat-card fxLayout="column" fxLayoutAlign="center" class="card" mat-ripple>
+<mat-card
+    fxLayout="column"
+    fxLayoutAlign="center"
+    class="card"
+    mat-ripple
+    [ngClass]="{
+        closed: isClosed
+    }"
+>
     <mat-card-title class="card__title mat-headline">
         號碼牌：{{ order.waitingNumber }} 號
     </mat-card-title>

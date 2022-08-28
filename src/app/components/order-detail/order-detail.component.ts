@@ -4,7 +4,7 @@ import { MenuOperatorService } from '@services/menu-operator/menu-operator.servi
 import { filter, map, Observable, switchMap, take, tap } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 import { OrderMenuStore } from '@store/order-menu-store.service';
-import { Order, OrderInfo } from '@models/order';
+import { Order, OrderInfo, OrderStatus } from '@models/order';
 import { PosOperatorService } from '@services/pos-operator/pos-operator.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -20,6 +20,7 @@ export class OrderDetailComponent implements OnInit {
     sections$!: Observable<OrderInfo>;
     isUpdating$!: Observable<boolean>;
     order$!: Observable<Order | null>;
+    isOrderClosed: boolean = false;
 
     private orderId$!: Observable<number | null>;
 
@@ -52,23 +53,34 @@ export class OrderDetailComponent implements OnInit {
         this.order$ = this.orderId$.pipe(
             take(1),
             filter((id) => typeof id === 'number'),
-            switchMap((id) => this.posOperator.getOrderById(id!)),
-            tap((state) => {
-                const sections: { [key: string]: Map<number, number> } = {};
-                Object.entries(state.info).forEach(([key, value]) => {
-                    sections[key] = new Map(
-                        value.map((item) => [item.id, item.count])
-                    );
-                });
-
-                this.orderMenuStore.setState({
-                    sections,
-                });
-            })
+            switchMap((id) => this.posOperator.getOrderById(id!))
         );
+
+        this.order$
+            .pipe(
+                take(1),
+                tap((state) => {
+                    const sections: { [key: string]: Map<number, number> } = {};
+                    Object.entries(state!.info).forEach(([key, value]) => {
+                        sections[key] = new Map(
+                            value.map((item) => [item.id, item.count])
+                        );
+                    });
+
+                    this.orderMenuStore.setState({
+                        sections,
+                    });
+
+                    this.isOrderClosed = state?.status === OrderStatus.CLOSED;
+                })
+            )
+            .subscribe();
     }
 
     onCardClick(item: MenuItem): void {
+        if (this.isOrderClosed) {
+            return;
+        }
         this.orderMenuStore.addItem(item);
     }
 
@@ -100,5 +112,12 @@ export class OrderDetailComponent implements OnInit {
 
     onModifyItem(updateInfo: { item: MenuItem; count: number }): void {
         this.orderMenuStore.updateItemCount(updateInfo);
+    }
+
+    onCloseClick(id: number): void {
+        this.posOperator
+            .close(id)
+            .pipe(tap(() => this.backToDashboard()))
+            .subscribe();
     }
 }

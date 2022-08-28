@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Order } from '@models/order';
+import { Order, OrderStatus } from '@models/order';
 
 @Component({
     selector: 'app-order-card',
@@ -8,8 +8,11 @@ import { Order } from '@models/order';
 })
 export class OrderCardComponent implements OnInit {
     @Input() order!: Order;
+    isClosed: boolean = false;
 
     constructor() {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.isClosed = this.order.status === OrderStatus.CLOSED;
+    }
 }

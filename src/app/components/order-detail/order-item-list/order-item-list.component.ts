@@ -11,7 +11,7 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import { Order, OrderInfo } from '@models/order';
+import { Order, OrderInfo, OrderStatus } from '@models/order';
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,6 +19,7 @@ import { MenuOperatorService } from '@services/menu-operator/menu-operator.servi
 import { MenuItem } from '@models/menu';
 import { OrderItemComponent } from '../order-item/order-item.component';
 import { PosOperatorService } from '@services/pos-operator/pos-operator.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-order-item-list',
@@ -47,6 +48,7 @@ export class OrderItemListComponent
         item: MenuItem;
         count: number;
     }>();
+    @Output() closeClick = new EventEmitter<number>();
 
     waitingNumber: number | null = null;
     totalAmount$!: Observable<number>;
@@ -64,10 +66,15 @@ export class OrderItemListComponent
         return this.waitingNumber === null;
     }
 
+    get isClosed(): boolean {
+        return this.order?.status === OrderStatus.CLOSED;
+    }
+
     constructor(
         private dialogService: MatDialog,
         private menuOperator: MenuOperatorService,
-        private posOperator: PosOperatorService
+        private posOperator: PosOperatorService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -122,9 +129,22 @@ export class OrderItemListComponent
             return;
         }
 
+        if (this.isClosed) {
+            this.router.navigate(['/']).then();
+            return;
+        }
+
         this.updateClick.emit({
             id: this.order.id,
             orderInfo: this.sections,
         });
+    }
+
+    close(): void {
+        if (!this.order) {
+            return;
+        }
+
+        this.closeClick.emit(this.order.id);
     }
 }
