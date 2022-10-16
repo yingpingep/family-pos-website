@@ -16,31 +16,35 @@ export class MenuOperatorService implements MenuOperator {
     }
 
     getMenu(): GetMenuResponse {
-        return this.httpClient.get<MenuItem[]>('/assets/menu.json').pipe(
-            map((rawItems) => {
-                const sectionMap = new Map<string, MenuSection>();
+        return this.httpClient
+            .get<MenuItem[]>(
+                'https://yingpingep.github.io/family-pos-website/assets/menu.json'
+            )
+            .pipe(
+                map((rawItems) => {
+                    const sectionMap = new Map<string, MenuSection>();
 
-                const addToSectionMap = (item: MenuItem) => {
-                    const { type } = item;
-                    const section = sectionMap.get(type);
-                    const items = section ? section.items : [];
+                    const addToSectionMap = (item: MenuItem) => {
+                        const { type } = item;
+                        const section = sectionMap.get(type);
+                        const items = section ? section.items : [];
 
-                    items.push(item);
-                    sectionMap.set(type, {
-                        type,
-                        items,
+                        items.push(item);
+                        sectionMap.set(type, {
+                            type,
+                            items,
+                        });
+                    };
+
+                    rawItems.forEach((item) => {
+                        addToSectionMap(item);
+                        this.addToInternalMenuMap(item);
                     });
-                };
 
-                rawItems.forEach((item) => {
-                    addToSectionMap(item);
-                    this.addToInternalMenuMap(item);
-                });
-
-                const menu: Menu = [...sectionMap.values()];
-                return { menu };
-            })
-        );
+                    const menu: Menu = [...sectionMap.values()];
+                    return { menu };
+                })
+            );
     }
 
     getMenuItem(id: number): MenuItem {
